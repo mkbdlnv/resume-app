@@ -1,6 +1,6 @@
 package kabdulinovmedet.pet.kz.resume.Security;
 
-import kabdulinovmedet.pet.kz.resume.models.User;
+import  kabdulinovmedet.pet.kz.resume.models.User;
 import kabdulinovmedet.pet.kz.resume.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +23,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByEmail(email);
         if(user.isEmpty()) throw new UsernameNotFoundException("User not found!");
-        return new MyUserDetails(user.get());
+        return new MyUserDetails(user.get());   
 
     }
 }

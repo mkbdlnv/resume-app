@@ -1,8 +1,8 @@
-package models;
+package kabdulinovmedet.pet.kz.resume.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,20 +11,30 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="users")
-public class User {
+public class    User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
+    @NotBlank(message = "Name cannot be empty.")
     private String name;
-    @NotBlank
+    @NotBlank(message = "Lastname cannot be empty.")
     private String lastname;
-    @Email
+    @Email(message = "Incorrect email.")
     private String email;
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\S+$).{8,20}$")
     private String password;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "owner")
+    private List<Resume> resumes;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition="varchar default 'ROLE_USER'")
+    private Role role;
+
 }
